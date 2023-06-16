@@ -1,9 +1,9 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import url, { URL, URLSearchParams, fileURLToPath } from 'node:url'
 import { exec } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { URL, URLSearchParams, fileURLToPath } from 'node:url'
 import { builtinModules, createRequire } from 'node:module'
 import { promises as dns } from 'node:dns'
 import { performance } from 'node:perf_hooks'
@@ -264,7 +264,8 @@ export function cleanUrl(url: string): string {
 }
 
 export const externalRE = /^(https?:)?\/\//
-export const isExternalUrl = (url: string): boolean => externalRE.test(url)
+export const isExternalUrl = (u: string): boolean =>
+  url.parse(u).protocol !== null
 
 export const dataUrlRE = /^\s*data:/i
 export const isDataUrl = (url: string): boolean => dataUrlRE.test(url)
